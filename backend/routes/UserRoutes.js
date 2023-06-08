@@ -1,10 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-const { login } = require("../controllers/UserController");
+const { register, login } = require("../controllers/UserController");
 
 /**
- * Rotas de login do usuário
+ * Rotas de registro
+ */
+router.get("/register", register);
+
+/**
+ * Rotas de login
  */
 router.get("/login", login);
 
