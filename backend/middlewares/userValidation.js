@@ -29,6 +29,8 @@ const userCreateValidation = () => {
     ];
 };
 
+const userLoginValidation = () => {};
+
 module.exports = {
     userCreateValidation,
 };

@@ -9,7 +9,7 @@ const register = async (req, res) => {
  * Realiza a validação de login do usuário
  */
 const login = async (req, res) => {
-    res.send("User login ok");
+    await res.status(201).json({ message: "Login realizado com sucesso" });
 };
 
 module.exports = {
