@@ -6,14 +6,16 @@ const generatedToken = (id) => {
 };
 
 /**
- * A função de registro recebe os dados do usuário, faz a verificação do email 
- * para validar se o usuário está utilizando um email cadastrado na base de dados,
- * faz a cryptografia da senha e registra o novo usuário retornando um JSON com o 
- * ID e Token do novo registro. 
+ * Função responsável por registrar um novo usuário.
+ *
+ * @param {Object} req - Objeto de solicitação HTTP.
+ * @param {Object} res - Objeto de resposta HTTP.
+ * @returns {void}
  */
 const register = async (req, res) => {
     const { name, email, password } = req.body;
 
+    // verifica se o email já esta em uso
     const checkEmail = await User.findOne({ email });
 
     if (checkEmail) {
@@ -21,9 +23,11 @@ const register = async (req, res) => {
         return;
     }
 
+    // cria uma senha cryptografada
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
+    // perciste os dados no banco
     const newUser = await User.create({
         name,
         email,
