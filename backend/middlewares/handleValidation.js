@@ -7,9 +7,11 @@ const validate = (req, res, next) => {
         return next();
     }
 
-    const extractErros = errors
-        .array()
-        .map((err) => extractErros.push(err.msg));
+    const extractedErros = [];
+
+    errors.array().map((err) => extractedErros.push(err.msg));
+
+    return res.status(422).json({ error: extractedErros });
 };
 
 module.exports = validate;

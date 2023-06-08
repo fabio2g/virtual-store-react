@@ -2,7 +2,7 @@
  * Realiza o registro do usuário no banco de dados
  */
 const register = async (req, res) => {
-    res.send("registro ok");
+    await res.status(201).json({ message: "Registro feito com sucesso" });
 };
 
 /**
