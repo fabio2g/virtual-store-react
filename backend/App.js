@@ -1,4 +1,6 @@
 require("dotenv").config();
+require("./config/database");
+
 const express = require("express");
 const app = express();
 
@@ -12,9 +14,6 @@ app.use(express.urlencoded({ extended: true }));
  * Arquivo de rotas
  */
 const router = require("./routes/Routes");
-
-require("./config/database");
-
 app.use(router);
 
 app.listen(process.env.PORT || 8080, () => {
