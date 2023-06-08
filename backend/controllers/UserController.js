@@ -6,8 +6,10 @@ const generatedToken = (id) => {
 };
 
 /**
- * - Rota de registro
- * - Realiza o registro do usuário no banco de dados
+ * A função de registro recebe os dados do usuário, faz a verificação do email 
+ * para validar se o usuário está utilizando um email cadastrado na base de dados,
+ * faz a cryptografia da senha e registra o novo usuário retornando um JSON com o 
+ * ID e Token do novo registro. 
  */
 const register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -19,7 +21,6 @@ const register = async (req, res) => {
         return;
     }
 
-    // criptografia da senha
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
@@ -41,7 +42,6 @@ const register = async (req, res) => {
 };
 
 /**
- * - Rota de login
  * - Realiza a validação de login do usuário
  */
 const login = async (req, res) => {
