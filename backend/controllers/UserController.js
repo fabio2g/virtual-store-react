@@ -1,8 +1,13 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const jwtSecret = process.env.JWT_SECRET;
 
 const generatedToken = (id) => {
-    return id;
+    return jwt.sign({ id }, jwtSecret, {
+        expiresIn: "5d",
+    });
 };
 
 /**
@@ -46,10 +51,35 @@ const register = async (req, res) => {
 };
 
 /**
- * - Realiza a validação de login do usuário
+ * Função responsável por realizar o login do usuário.
+ *
+ * @param {Object} req - Objeto de solicitação HTTP.
+ * @param {Object} res - Objeto de resposta HTTP.
+ * @returns {void}
  */
 const login = async (req, res) => {
-    await res.status(201).json({ message: "Login realizado com sucesso." });
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    // verifica se o email/usuário está registrado
+    if (!user) {
+        res.status(404).json([{ error: "Informe um e-mail válido" }]);
+        return;
+    }
+
+    // verifica se a senha está correta
+    if (!(await bcrypt.compare(password, user.password))) {
+        res.status(401).json([
+            { error: "Senha incorreta, por favor verifique sua senha." },
+        ]);
+        return;
+    }
+
+    res.status(201).json({
+        _id: user._id,
+        token: generatedToken(user._id),
+    });
 };
 
 module.exports = {
