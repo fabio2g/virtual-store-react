@@ -9,6 +9,7 @@ const {
 const { register, login } = require("../controllers/UserController");
 const validate = require("../middlewares/handleValidation");
 
+
 /**
  * Rotas de registro
  */
