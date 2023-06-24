@@ -8,7 +8,7 @@ const {
 
 const { register, login, profile } = require("../controllers/UserController");
 const validate = require("../middlewares/handleValidation");
-const authValidation = require("../middlewares/authValidation");
+const authValidation = require("../middlewares/authGuard");
 
 /**
  * Rotas de registro

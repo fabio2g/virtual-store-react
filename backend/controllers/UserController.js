@@ -89,7 +89,6 @@ const login = async (req, res) => {
  * @param {Object} res - Objeto de resposta HTTP.
  * @returns {void}
  */
-
 const profile = async (req, res) => {
     try {
         const user = req.user;
