@@ -4,13 +4,15 @@ const router = express();
 /**
  * Rotas do usuário
  */
-router.use("/user", require('./UserRoutes'));
+router.use("/user", require("./UserRoutes"));
 
 /**
  * Rota principal
  */
 router.get("/", (req, res) => {
-    res.send("Funcionou...");
+    res.status(200).json({
+        message: "Olá, bem-vindo à API!",
+    });
 });
 
 module.exports = router;

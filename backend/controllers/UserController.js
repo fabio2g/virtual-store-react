@@ -76,13 +76,34 @@ const login = async (req, res) => {
         return;
     }
 
-    res.status(201).json({
+    res.status(200).json({
         _id: user._id,
         token: generatedToken(user._id),
     });
 };
 
+/**
+ * Função responsável por fornecer os dados do usuário logado.
+ *
+ * @param {Object} req - Objeto de solicitação HTTP.
+ * @param {Object} res - Objeto de resposta HTTP.
+ * @returns {void}
+ */
+
+const profile = async (req, res) => {
+    try {
+        const user = req.user;
+
+        res.status(200).json({
+            data: user,
+        });
+    } catch (error) {
+        res.json({ message: "Errro profile" });
+    }
+};
+
 module.exports = {
     register,
     login,
+    profile,
 };
