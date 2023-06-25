@@ -8,7 +8,7 @@ const {
 
 const { register, login, profile } = require("../controllers/UserController");
 const validate = require("../middlewares/handleValidation");
-const authValidation = require("../middlewares/authGuard");
+const authGuard = require("../middlewares/authGuard");
 
 /**
  * Rotas de registro
@@ -23,6 +23,6 @@ router.post("/login", loginValidation(), validate, login);
 /**
  * Rotas de perfil do usuário logado
  */
-router.get("/profile", authValidation, profile);
+router.get("/profile", authGuard, profile);
 
 module.exports = router;
