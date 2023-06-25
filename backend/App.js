@@ -17,5 +17,5 @@ const router = require("./routes/Routes");
 app.use(router);
 
 app.listen(process.env.PORT || 8080, () => {
-    console.log("[app] servidor rodando");
+    console.log(`[app] servidor rodando na port ${process.env.PORT}`);
 });
