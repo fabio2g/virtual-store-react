@@ -6,27 +6,10 @@ const productSchema = new Schema({
         type: String,
         required: true,
     },
-    code: {
-        type: String,
-        require: true,
-        unique: true,
-    },
     description: {
         type: String,
         required: true,
     },
-    supplierId: [
-        {
-            supplierId: {
-                type: Schema.Types.ObjectId,
-                ref: "supplier",
-            },
-            name: String,
-            address: String,
-            phone: String,
-            email: String,
-        },
-    ],
     categories: [
         {
             type: String,
@@ -45,16 +28,8 @@ const productSchema = new Schema({
             type: String,
         },
     ],
-    createdAt: {
-        type: Date,
-        default: Date.now(),
-    },
-    updateAt: {
-        type: Date,
-        default: Date.now(),
-    },
 });
 
-const Product = mongoose.model("Products", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;

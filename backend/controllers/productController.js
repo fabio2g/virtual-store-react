@@ -1,4 +1,6 @@
-const create = async (req, res) => {
+const Product = require("../models/Product");
+
+const register = async (req, res) => {
     const {
         name,
         code,
@@ -12,10 +14,8 @@ const create = async (req, res) => {
         updateAt,
     } = req.body;
 
-    // Validações de inputs
-    
-
-    const newProduct = {
+    // Registra os dados no banco
+    const newProduct = await Product.create({
         name,
         code,
         description,
@@ -26,5 +26,16 @@ const create = async (req, res) => {
         images,
         createAt,
         updateAt,
-    };
+    });
+
+    if (!newProduct) {
+        res.json({ error: ["Erro ao registrar o produto!"] });
+        return;
+    }
+
+    res.status(201).json({ message: "Produto registrado com sucesso!" });
+};
+
+module.exports = {
+    register,
 };

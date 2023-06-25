@@ -7,6 +7,11 @@ const router = express();
 router.use("/user", require("./UserRoutes"));
 
 /**
+ * Rotas de produto
+ */
+router.use("/product", require("./ProductRoutes"));
+
+/**
  * Rota principal
  */
 router.get("/", (req, res) => {
