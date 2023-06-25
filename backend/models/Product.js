@@ -23,11 +23,19 @@ const productSchema = new Schema({
         type: Number,
         default: 0,
     },
+    sales: {
+        type: Number,
+        default: 0,
+    },
     images: [
         {
             type: String,
         },
     ],
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
 });
 
 const Product = mongoose.model("Product", productSchema);
