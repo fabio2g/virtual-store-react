@@ -24,7 +24,10 @@ const register = async (req, res) => {
     const checkEmail = await User.findOne({ email });
 
     if (checkEmail) {
-        res.status(422).json({ error: ["Por favor, utilize outro e-mail."] });
+        res.status(422).json({
+            success: false,
+            error: ["Por favor, utilize outro e-mail."],
+        });
         return;
     }
 
@@ -40,7 +43,10 @@ const register = async (req, res) => {
     });
 
     if (!newUser) {
-        res.status(422).json({ error: ["Erro ao criar usuário."] });
+        res.status(422).json({
+            success: false,
+            error: ["Erro ao criar usuário."],
+        });
         return;
     }
 
@@ -64,7 +70,10 @@ const login = async (req, res) => {
 
     // verifica se o email/usuário está registrado
     if (!user) {
-        res.status(404).json([{ error: "Informe um e-mail válido" }]);
+        res.status(404).json({
+            success: false,
+            error: "Informe um e-mail válido",
+        });
         return;
     }
 

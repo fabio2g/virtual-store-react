@@ -6,6 +6,22 @@ const productSchema = new Schema({
         type: String,
         required: true,
     },
+    serie: {
+        type: String,
+        lowercase: true,
+        trim: true,
+        require: true,
+    },
+    brand: {
+        type: String,
+        require: true,
+    },
+    color: {
+        type: String,
+        uppercase: true,
+        trim: true,
+        enum: ["RED"],
+    },
     description: {
         type: String,
         required: true,
@@ -32,6 +48,12 @@ const productSchema = new Schema({
             type: String,
         },
     ],
+    assessment: {
+        type: Number,
+        min: 0,
+        max: 5,
+        default: 0,
+    },
     createdAt: {
         type: Date,
         default: Date.now(),

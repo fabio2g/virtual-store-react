@@ -11,7 +11,7 @@ const validate = (req, res, next) => {
 
     errors.array().map((err) => extractedErros.push(err.msg));
 
-    return res.status(422).json({ error: extractedErros });
+    return res.status(422).json({ success: false, error: extractedErros });
 };
 
 module.exports = validate;
