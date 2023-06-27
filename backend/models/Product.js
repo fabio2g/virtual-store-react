@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const productSchema = new Schema({
     name: {
         type: String,
+        trim: true,
         required: true,
     },
     serie: {
@@ -14,23 +15,57 @@ const productSchema = new Schema({
     },
     brand: {
         type: String,
-        require: true,
+        trim: true,
+        default: null,
     },
     color: {
         type: String,
         uppercase: true,
         trim: true,
-        enum: ["RED"],
+        enum: [
+            "VERMELHO",
+            "AZUL",
+            "VERDE",
+            "PRETO",
+            "BRANCO",
+            "AMARELO",
+            "ROXO",
+            "LARANJA",
+            "MARROM",
+            "CINZA",
+            "PRATA",
+            "DOURADO",
+            "ROSA",
+        ],
     },
     description: {
         type: String,
+        trim: true,
         required: true,
     },
-    categories: [
-        {
-            type: String,
-        },
-    ],
+    categories: {
+        type: String,
+        uppercase: true,
+        trim: true,
+        enum: [
+            "ELETRÔNICOS",
+            "ROUPAS",
+            "ALIMENTOS",
+            "DECORAÇÃO",
+            "ESPORTES",
+            "BELEZA",
+            "AUTOMOTIVO",
+            "BRINQUEDOS",
+            "MÓVEIS",
+            "JOGOS",
+            "SAÚDE",
+            "LIVROS",
+            "PAPÉIS",
+            "INSTRUMENTOS",
+            "PET",
+            "OUTROS",
+        ],
+    },
     price: {
         type: Number,
         require: true,
@@ -46,6 +81,7 @@ const productSchema = new Schema({
     images: [
         {
             type: String,
+            trim: true,
         },
     ],
     assessment: {
