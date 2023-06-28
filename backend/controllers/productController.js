@@ -14,7 +14,15 @@ const register = async (req, res) => {
         assessment,
     } = req.body;
 
-    const a = Product.findOne();
+    const product = Product.findOne({ serie });
+
+    if (product) {
+        res.status(422).json({
+            success: "false",
+            message: "Já existe um produto cadastrado com esse número de série",
+        });
+        return;
+    }
 
     // Registra os dados no banco
     const newProduct = await Product.create({
