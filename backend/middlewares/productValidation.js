@@ -1,79 +1,83 @@
 const { body } = require("express-validator");
-const { isString } = require("util");
 const validUrl = require("valid-url");
+
+const enumColors = [
+    "VERMELHO",
+    "AZUL",
+    "VERDE",
+    "PRETO",
+    "BRANCO",
+    "AMARELO",
+    "ROXO",
+    "LARANJA",
+    "MARROM",
+    "CINZA",
+    "PRATA",
+    "DOURADO",
+    "ROSA",
+];
+
+const enumCategories = [
+    "ELETRÔNICOS",
+    "ROUPAS",
+    "ALIMENTOS",
+    "DECORAÇÃO",
+    "ESPORTES",
+    "BELEZA",
+    "AUTOMOTIVO",
+    "BRINQUEDOS",
+    "MÓVEIS",
+    "JOGOS",
+    "SAÚDE",
+    "LIVROS",
+    "PAPÉIS",
+    "INSTRUMENTOS",
+    "PET",
+    "OUTROS",
+];
 
 const registerProductValidation = () => {
     return [
         body("name")
             .isString()
-            .withMessage("O nome é obrigatório!")
+            .withMessage("O nome é obrigatório.")
             .isLength({ min: 3 })
-            .withMessage("O nome deve ter mais de 3 caracteres."),
+            .withMessage("O nome deve ter pelo menos 3 caracteres."),
         body("serie")
             .isString()
             .withMessage("O código de referência é obrigatório.")
             .isLength({ min: 3 })
-            .withMessage("O código deve ter no mínimo 3 caracteres."),
+            .withMessage("O código deve ter pelo menos 3 caracteres."),
         body("color")
             .isString()
-            .withMessage("Por favor, informe uma cor.")
+            .withMessage("A cor é obrigatória.")
             .custom((color) => {
-                const enumColors = [
-                    "VERMELHO",
-                    "AZUL",
-                    "VERDE",
-                    "PRETO",
-                    "BRANCO",
-                    "AMARELO",
-                    "ROXO",
-                    "LARANJA",
-                    "MARROM",
-                    "CINZA",
-                    "PRATA",
-                    "DOURADO",
-                    "ROSA",
-                ];
-
                 if (!enumColors.includes(color.toUpperCase()))
-                    throw new Error("Por favor, informe uma cor válida.");
+                    throw new Error(
+                        `Por favor, informe uma cor válida. As opções válidas são: ${enumColors.join(
+                            ", "
+                        )}.`
+                    );
 
                 return true;
             }),
         body("description")
             .isString()
-            .withMessage("Por favor, informe um descrição válida.")
+            .withMessage("Informe um descrição.")
             .isLength({ min: 10 })
-            .withMessage("A descrição deve conter no mínimo 10 caracteres."),
+            .withMessage("A descrição deve ter pelo menos 10 caracteres."),
         body("categories")
             .isString()
-            .withMessage("Por favor, informe uma categoria.")
+            .withMessage("Informe uma categoria.")
             .custom((value) => {
-                const enumCategories = [
-                    "ELETRÔNICOS",
-                    "ROUPAS",
-                    "ALIMENTOS",
-                    "DECORAÇÃO",
-                    "ESPORTES",
-                    "BELEZA",
-                    "AUTOMOTIVO",
-                    "BRINQUEDOS",
-                    "MÓVEIS",
-                    "JOGOS",
-                    "SAÚDE",
-                    "LIVROS",
-                    "PAPÉIS",
-                    "INSTRUMENTOS",
-                    "PET",
-                    "OUTROS",
-                ];
-
                 if (typeof value === "string") {
                     if (!enumCategories.includes(value.toUpperCase()))
                         throw new Error(
-                            "Por favor, informe uma categoria válida."
+                            `Por favor, informe uma categoria válida. As opções válidas são: ${enumCategories.join(
+                                ", "
+                            )}.`
                         );
                 }
-
                 return true;
             }),
         body("price")
@@ -87,7 +91,7 @@ const registerProductValidation = () => {
             }),
         body("stockQuantity")
             .isNumeric()
-            .withMessage("A quantidade em estoque deve ser um número!")
+            .withMessage("A quantidade em estoque deve ser um número.")
             .custom((value) => {
                 if (value < 0)
                     throw new Error(
@@ -97,17 +101,17 @@ const registerProductValidation = () => {
             }),
         body("images")
             .isArray({ min: 1 })
-            .withMessage("Por favor, informe uma url de imagem.")
+            .withMessage("Informe uma URL de imagem.")
             .custom((images) => {
                 for (let image of images) {
                     if (typeof image !== "string")
                         throw new Error(
-                            "Por favor, informe uma url em formato string."
+                            "Informe uma url em formato de string."
                         );
 
                     if (!validUrl.isWebUri(image))
                         throw new Error(
-                            `A url ${image} é inválida, por favor informe uma url válida.`
+                            `A url ${image} é inválida, informe uma url válida.`
                         );
                 }
                 return true;

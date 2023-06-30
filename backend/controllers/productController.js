@@ -14,12 +14,13 @@ const register = async (req, res) => {
         assessment,
     } = req.body;
 
-    const product = Product.findOne({ serie });
+    const product = await Product.findOne({ serie });
 
     if (product) {
         res.status(422).json({
             success: "false",
-            message: "Já existe um produto cadastrado com esse número de série",
+            message:
+                "O produto não pode ser cadastrado, já existe um produto cadastrado com o mesmo número de série.",
         });
         return;
     }
