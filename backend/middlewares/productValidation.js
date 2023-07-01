@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const { body } = require("express-validator");
 const validUrl = require("valid-url");
 
@@ -36,7 +38,7 @@ const enumCategories = [
     "OUTROS",
 ];
 
-const registerProductValidation = () => {
+const productValidation = () => {
     return [
         body("name")
             .isString()
@@ -45,9 +47,9 @@ const registerProductValidation = () => {
             .withMessage("O nome deve ter pelo menos 3 caracteres."),
         body("serie")
             .isString()
-            .withMessage("O código de referência é obrigatório.")
+            .withMessage("O número de série é obrigatório.")
             .isLength({ min: 3 })
-            .withMessage("O código deve ter pelo menos 3 caracteres."),
+            .withMessage("O número de série deve ter pelo menos 3 caracteres."),
         body("color")
             .isString()
             .withMessage("A cor é obrigatória.")
@@ -119,6 +121,22 @@ const registerProductValidation = () => {
     ];
 };
 
+const updateProductValidation = () => {
+    return [
+        body("_id")
+            .isString()
+            .withMessage("Infome o ID do produto.")
+            .custom((id) => {
+                const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
+
+                if (!isValidObjectId) throw new Error("Informe um ID válido.");
+
+                return true;
+            }),
+    ];
+};
+
 module.exports = {
-    registerProductValidation,
+    productValidation,
+    updateProductValidation,
 };

@@ -51,6 +51,71 @@ const register = async (req, res) => {
     });
 };
 
+const getAllProduct = async (req, res) => {
+    try {
+        const products = await Product.find();
+
+        res.status(200).json({ success: true, data: products });
+    } catch (error) {
+        res.status(500).json("Ocorreu um erro ao obter os produtos.");
+    }
+};
+
+const updateProduct = async (req, res) => {
+    const {
+        _id,
+        name,
+        serie,
+        brand,
+        color,
+        description,
+        categories,
+        price,
+        stockQuantity,
+        images,
+    } = req.body;
+
+    try {
+        const product = await Product.updateOne(
+            { _id },
+            {
+                name,
+                serie,
+                brand,
+                color,
+                description,
+                categories,
+                price,
+                stockQuantity,
+                images,
+            }
+        );
+
+        const updateProduct = await Product.findOne({ _id });
+
+        if (product.modifiedCount === 0) {
+            res.status(422).json({
+                success: false,
+                message: "Não ouveram modificações no registro do produto.",
+                data: updateProduct,
+            });
+            return;
+        }
+
+        res.status(201).json({
+            success: true,
+            data: updateProduct,
+        });
+    } catch (error) {
+        res.status(422).json({
+            success: false,
+            error: "Ouve um erro inesperado, por favor tente mais tarde.",
+        });
+    }
+};
+
 module.exports = {
     register,
+    updateProduct,
+    getAllProduct,
 };

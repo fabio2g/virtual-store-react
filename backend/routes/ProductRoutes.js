@@ -1,14 +1,29 @@
 const express = require("express");
 const router = express.Router();
 
-const { register } = require("../controllers/ProductController");
+const {
+    register,
+    updateProduct,
+    getAllProduct,
+} = require("../controllers/ProductController");
 
 const {
-    registerProductValidation,
+    productValidation,
+    updateProductValidation,
 } = require("../middlewares/productValidation");
 
 const validate = require("../middlewares/handleValidation");
 
-router.post("/register", registerProductValidation(), validate, register);
+router.post("/register", productValidation(), validate, register);
+
+router.get("/readall", getAllProduct);
+
+router.put(
+    "/update",
+    productValidation(),
+    updateProductValidation(),
+    validate,
+    updateProduct
+);
 
 module.exports = router;
