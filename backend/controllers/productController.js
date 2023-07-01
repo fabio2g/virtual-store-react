@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Product = require("../models/Product");
 
 const register = async (req, res) => {
@@ -61,6 +62,26 @@ const getAllProduct = async (req, res) => {
     }
 };
 
+const getProductById = async (req, res) => {
+    const productId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(productId))
+        return res
+            .status(422)
+            .json({ success: false, error: "O ID é inválido" });
+
+    try {
+        const product = await Product.findById(productId);
+
+        res.status(200).json({ success: true, data: product });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erro: "Ocorreu um erro ao obter o produto.",
+        });
+    }
+};
+
 const updateProduct = async (req, res) => {
     const {
         _id,
@@ -116,6 +137,7 @@ const updateProduct = async (req, res) => {
 
 module.exports = {
     register,
-    updateProduct,
     getAllProduct,
+    getProductById,
+    updateProduct,
 };
