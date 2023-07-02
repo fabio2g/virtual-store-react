@@ -5,6 +5,9 @@ function idIsValid(id) {
     return mongoose.Types.ObjectId.isValid(id) ? true : false;
 }
 
+/**
+ * Serviço responsável por criar um novo produto
+ */
 const createProduct = async (req, res) => {
     const {
         name,
@@ -56,6 +59,9 @@ const createProduct = async (req, res) => {
     });
 };
 
+/**
+ * Serviço responsável por listar todos os produtos
+ */
 const getAllProduct = async (req, res) => {
     try {
         const products = await Product.find();
@@ -66,6 +72,9 @@ const getAllProduct = async (req, res) => {
     }
 };
 
+/**
+ * Serviço responsável por listar o produto pelo ID
+ */
 const getProductById = async (req, res) => {
     const productId = req.params.id;
 
@@ -86,6 +95,9 @@ const getProductById = async (req, res) => {
     }
 };
 
+/**
+ * Serviço responsável por autualizar o produto
+ */
 const updateProduct = async (req, res) => {
     const id = req.params.id;
 
@@ -139,6 +151,9 @@ const updateProduct = async (req, res) => {
     }
 };
 
+/**
+ * Serviço responsável por deletar o produto
+ */
 const deletePRoduct = async (req, res) => {
     const id = req.params.id;
 

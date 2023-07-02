@@ -1,3 +1,6 @@
+/**
+ * Verifica se o usuário tem permições de admin
+ */
 const isAuthenticated = (req, res, next) => {
     const userRole = req.user.role;
 
