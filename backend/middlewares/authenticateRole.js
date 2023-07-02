@@ -4,7 +4,7 @@
 const isAuthenticated = (req, res, next) => {
     const userRole = req.user.role;
 
-    if (userRole == 1) {
+    if (userRole == 0) {
         return next();
     }
 
