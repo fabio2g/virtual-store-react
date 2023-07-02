@@ -10,13 +10,6 @@ const generatedToken = (id) => {
     });
 };
 
-/**
- * Função responsável por registrar um novo usuário.
- *
- * @param {Object} req - Objeto de solicitação HTTP.
- * @param {Object} res - Objeto de resposta HTTP.
- * @returns {void}
- */
 const register = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -35,7 +28,6 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // perciste os dados no banco
     const newUser = await User.create({
         name,
         email,
@@ -56,13 +48,6 @@ const register = async (req, res) => {
     });
 };
 
-/**
- * Função responsável por realizar o login do usuário.
- *
- * @param {Object} req - Objeto de solicitação HTTP.
- * @param {Object} res - Objeto de resposta HTTP.
- * @returns {void}
- */
 const login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -80,29 +65,27 @@ const login = async (req, res) => {
     // verifica se a senha está correta
     if (!(await bcrypt.compare(password, user.password))) {
         res.status(401).json([
-            { error: "Senha incorreta, por favor verifique sua senha." },
+            {
+                success: false,
+                error: "Senha incorreta, por favor verifique sua senha.",
+            },
         ]);
         return;
     }
 
     res.status(200).json({
+        success: true,
         _id: user._id,
         token: generatedToken(user._id),
     });
 };
 
-/**
- * Função responsável por fornecer os dados do usuário logado.
- *
- * @param {Object} req - Objeto de solicitação HTTP.
- * @param {Object} res - Objeto de resposta HTTP.
- * @returns {void}
- */
 const profile = async (req, res) => {
     try {
         const user = req.user;
 
         res.status(200).json({
+            success: true,
             data: user,
         });
     } catch (error) {

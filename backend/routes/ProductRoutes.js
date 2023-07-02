@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    register,
+    createProduct,
     updateProduct,
     getAllProduct,
     getProductById,
+    deletePRoduct,
 } = require("../controllers/ProductController");
 
 const {
@@ -14,20 +15,49 @@ const {
     getProductValidation,
 } = require("../middlewares/productValidation");
 
+const authGuard = require("../middlewares/authGuard");
+
 const validate = require("../middlewares/handleValidation");
+const isAuthenticated = require("../middlewares/authenticateRole");
 
-router.post("/register", productValidation(), validate, register);
+/**
+ * Rota responsável pela criação de produtos
+ */
+router.post(
+    "/register",
+    authGuard,
+    isAuthenticated,
+    productValidation(),
+    validate,
+    createProduct
+);
 
-router.get("/read_all", getAllProduct);
+/**
+ * Rota responsável por listar os produtos do banco
+ */
+router.get("/read", getAllProduct);
 
-router.get("/read_id/:id", getProductById);
+/**
+ * Rota responsável por buscar produto pelo seu ID
+ */
+router.get("/read/:id", getProductById);
 
+/**
+ * Rota responsável por atualizar produto
+ */
 router.put(
     "/update",
+    authGuard,
+    isAuthenticated,
     productValidation(),
     updateProductValidation(),
     validate,
     updateProduct
 );
+
+/**
+ * Rota responsável por deletar produto
+ */
+router.delete("/delete/:id", authGuard, isAuthenticated, deletePRoduct);
 
 module.exports = router;

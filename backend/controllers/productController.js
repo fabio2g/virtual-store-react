@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 const Product = require("../models/Product");
 
-const register = async (req, res) => {
+function idIsValid(id) {
+    return mongoose.Types.ObjectId.isValid(id) ? true : false;
+}
+
+const createProduct = async (req, res) => {
     const {
         name,
         serie,
@@ -65,7 +69,7 @@ const getAllProduct = async (req, res) => {
 const getProductById = async (req, res) => {
     const productId = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(productId))
+    if (!idIsValid(productId))
         return res
             .status(422)
             .json({ success: false, error: "O ID é inválido" });
@@ -83,8 +87,9 @@ const getProductById = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
+    const id = req.params.id;
+
     const {
-        _id,
         name,
         serie,
         brand,
@@ -98,7 +103,7 @@ const updateProduct = async (req, res) => {
 
     try {
         const product = await Product.updateOne(
-            { _id },
+            { id },
             {
                 name,
                 serie,
@@ -112,13 +117,12 @@ const updateProduct = async (req, res) => {
             }
         );
 
-        const updateProduct = await Product.findOne({ _id });
+        const updateProduct = await Product.findOne({ id });
 
         if (product.modifiedCount === 0) {
             res.status(422).json({
                 success: false,
                 message: "Não ouveram modificações no registro do produto.",
-                data: updateProduct,
             });
             return;
         }
@@ -135,9 +139,32 @@ const updateProduct = async (req, res) => {
     }
 };
 
+const deletePRoduct = async (req, res) => {
+    const id = req.params.id;
+
+    if (!idIsValid(id)) {
+        res.status(400).json({ success: false, error: "ID inválido." });
+        return;
+    }
+
+    try {
+        await Product.deleteOne({ _id: id });
+        res.status(200).json({
+            success: true,
+            message: "Produto deletado com sucesso.",
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: "Ouve um erro inesperado, por favor tente mais tarde.",
+        });
+    }
+};
+
 module.exports = {
-    register,
+    createProduct,
     getAllProduct,
     getProductById,
     updateProduct,
+    deletePRoduct,
 };
