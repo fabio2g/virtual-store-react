@@ -13,7 +13,6 @@ const generatedToken = (id) => {
 const register = async (req, res) => {
     const { name, email, password } = req.body;
 
-    // verifica se o email já esta em uso
     const checkEmail = await User.findOne({ email });
 
     if (checkEmail) {
@@ -24,7 +23,6 @@ const register = async (req, res) => {
         return;
     }
 
-    // cria uma senha cryptografada
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
@@ -53,7 +51,6 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    // verifica se o email/usuário está registrado
     if (!user) {
         res.status(404).json({
             success: false,
@@ -62,8 +59,7 @@ const login = async (req, res) => {
         return;
     }
 
-    // verifica se a senha está correta
-    if (!(await bcrypt.compare(password, user.password))) {
+    if (!bcrypt.compare(password, user.password)) {
         res.status(401).json([
             {
                 success: false,
@@ -89,7 +85,7 @@ const profile = async (req, res) => {
             data: user,
         });
     } catch (error) {
-        res.json({ message: "Errro profile" });
+        res.json({ message: "Erro profile" });
     }
 };
 

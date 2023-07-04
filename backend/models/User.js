@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const Address = require("../models/Address");
+
 const userSchema = new Schema(
     {
         name: String,
@@ -9,6 +11,10 @@ const userSchema = new Schema(
         role: {
             type: Number,
             default: 1, // 0 - admin, 1 - user
+        },
+        address: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Address,
         },
     },
     {

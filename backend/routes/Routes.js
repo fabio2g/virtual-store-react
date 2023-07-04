@@ -11,6 +11,7 @@ router.use("/user", require("./UserRoutes"));
  */
 router.use("/product", require("./ProductRoutes"));
 
+router.use("/user", require("../routes/AddressRoutes"));
 /**
  * Rota principal
  */

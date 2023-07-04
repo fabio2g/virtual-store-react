@@ -19,7 +19,6 @@ const createProduct = async (req, res) => {
         price,
         stockQuantity,
         images,
-        assessment,
     } = req.body;
 
     const product = await Product.findOne({ serie });
@@ -33,7 +32,6 @@ const createProduct = async (req, res) => {
         return;
     }
 
-    // Registra os dados no banco
     const newProduct = await Product.create({
         name,
         serie,
@@ -44,7 +42,6 @@ const createProduct = async (req, res) => {
         price,
         stockQuantity,
         images,
-        assessment,
     });
 
     if (!newProduct) {
