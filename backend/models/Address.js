@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const addresSchema = new Schema({
+const addressSchema = new Schema({
     street: String,
     number: Number,
     city: String,
@@ -10,6 +10,6 @@ const addresSchema = new Schema({
     cep: String,
 });
 
-const Adrress = mongoose.model("Address", addresSchema);
+const Adrress = mongoose.model("Address", addressSchema);
 
 module.exports = Adrress;
