@@ -7,7 +7,10 @@ const addressSchema = new Schema({
     city: String,
     state: String,
     country: String,
-    cep: String,
+    cep: {
+        type: String,
+        unique: true,
+    },
 });
 
 const Adrress = mongoose.model("Address", addressSchema);

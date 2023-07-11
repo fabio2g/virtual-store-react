@@ -1,33 +1,39 @@
 // const Adrress = require("../models/Address");
 const Adrress = require("../models/Address");
+const Addrress = require("../models/Address");
 const User = require("../models/User");
 
-const addAddress = async (req, res) => {
-    const { street, number, city, state, country, cep } = req.body;
-    const userId = req.user.id;
+const addAddress = async (req, res, next) => {
+    const address = ({ street, number, city, state, country, cep } = req.body);
+    const user = req.user;
 
     try {
-        const newAddress = await Adrress.create({
-            street,
-            number,
-            city,
-            state,
-            country,
-            cep,
+        // check for existing addresses
+        const foundAddress = await Addrress.findOne(address);
+
+        if (!foundAddress) {
+            const newAddress = await Adrress.create(address);
+
+            foundAddress = newAddress;
+        }
+
+        if (!user.address.equals(foundAddress._id)) {
+            await User.findByIdAndUpdate(user._id, {
+                address: address._id,
+            });
+
+            return res.status(201).json({
+                success: true,
+                message: "Endereço atualizado com sucesso.",
+                addressId: user.address,
+                newAddressId: foundAddress._id,
+            });
+        }
+
+        return res.status(201).json({
+            success: true,
+            message: "Endereço atualizado com sucesso.",
         });
-
-        if (!newAddress) return res.send("não foi");
-
-        const userAddress = await User.updateOne(
-            {
-                userId,
-            },
-            {
-                address: newAddress._id,
-            }
-        );
-
-        res.send(userAddress);
     } catch (error) {
         res.send(error);
     }
