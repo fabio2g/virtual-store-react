@@ -16,12 +16,13 @@ const productSchema = new Schema({
     brand: {
         type: String,
         trim: true,
-        default: null,
+        require: true,
     },
     color: {
         type: String,
         uppercase: true,
         trim: true,
+        require: true,
         enum: [
             "VERMELHO",
             "AZUL",
@@ -47,6 +48,7 @@ const productSchema = new Schema({
         type: String,
         uppercase: true,
         trim: true,
+        require: true,
         enum: [
             "ELETRÔNICOS",
             "ROUPAS",
@@ -72,7 +74,7 @@ const productSchema = new Schema({
     },
     stockQuantity: {
         type: Number,
-        default: 0,
+        require: true,
     },
     sales: {
         type: Number,
@@ -82,6 +84,7 @@ const productSchema = new Schema({
         {
             type: String,
             trim: true,
+            require: true,
         },
     ],
     assessment: {
@@ -90,6 +93,7 @@ const productSchema = new Schema({
         max: 5,
         default: 0,
     },
+
     createdAt: {
         type: Date,
         default: Date.now(),

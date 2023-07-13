@@ -3,12 +3,22 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
     {
-        name: String,
+        name: {
+            type: String,
+            trim: true,
+            required: true,
+        },
         email: {
             type: String,
             unique: true,
+            trim: true,
+            required: true,
         },
-        password: String,
+        password: {
+            type: String,
+            trim: true,
+            required: true,
+        },
         role: {
             type: Number,
             default: 1, // 0 - admin, 1 - user
