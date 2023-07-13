@@ -13,9 +13,14 @@ const userSchema = new Schema(
             type: Number,
             default: 1, // 0 - admin, 1 - user
         },
-        address: {
+        addressId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Address",
+            default: null,
+        },
+        orderId: {
+            type: [{ type: mongoose.Schema.Types.ObjectId }],
+            ref: "Order",
         },
     },
     {
