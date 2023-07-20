@@ -6,6 +6,14 @@ const updateAddress = async (req, res) => {
         const { street, number, city, state, country, cep } = req.body;
         const user = req.user;
 
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "Você não está autenticado.",
+            });
+        }
+
+        // Verifica se o endereço já existe
         let foundAddress = await Address.findOne({
             street,
             number,
@@ -15,6 +23,7 @@ const updateAddress = async (req, res) => {
             cep,
         });
 
+        // Caso não exista, cria um novo endereço
         if (!foundAddress) {
             foundAddress = await Address.create({
                 street,
@@ -26,6 +35,7 @@ const updateAddress = async (req, res) => {
             });
         }
 
+        // Atualiza o endereço do usuário
         await User.findByIdAndUpdate(user._id, {
             addressId: foundAddress._id,
             updatedAt: Date.now(),
