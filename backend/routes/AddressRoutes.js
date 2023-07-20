@@ -3,8 +3,15 @@ const updateAddress = require("../controllers/AddressController");
 const router = express.Router();
 
 const authGuard = require("../middlewares/authGuard");
-const { validate } = require("../models/Address");
+const validate = require("../middlewares/handleValidation");
+const { addressValidation } = require("../middlewares/addressValidation");
 
-router.post("/address", authGuard, updateAddress);
+router.post(
+    "/address",
+    authGuard,
+    addressValidation(),
+    validate,
+    updateAddress
+);
 
 module.exports = router;

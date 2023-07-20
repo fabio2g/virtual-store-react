@@ -6,7 +6,6 @@ const updateAddress = async (req, res) => {
         const { street, number, city, state, country, cep } = req.body;
         const user = req.user;
 
-        // add validation address 
         let foundAddress = await Address.findOne({
             street,
             number,
