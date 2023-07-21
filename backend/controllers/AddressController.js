@@ -6,6 +6,7 @@ const updateAddress = async (req, res) => {
         const { street, number, city, state, country, cep } = req.body;
         const user = req.user;
 
+        // Verifica se o usuário está autenticado
         if (!user) {
             return res.status(401).json({
                 success: false,

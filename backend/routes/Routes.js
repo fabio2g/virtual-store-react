@@ -5,13 +5,14 @@ const router = express();
  * Rotas do usuário
  */
 router.use("/user", require("./UserRoutes"));
+router.use("/user", require("../routes/AddressRoutes"));
 
 /**
  * Rotas de produto
  */
 router.use("/product", require("./ProductRoutes"));
+router.use("/product", require("./OrderRoutes"));
 
-router.use("/user", require("../routes/AddressRoutes"));
 /**
  * Rota principal
  */
