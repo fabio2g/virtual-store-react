@@ -12,7 +12,7 @@ const createOrder = async (req, res) => {
                 .json({ error: "Products array is missing or empty." });
         }
 
-        let totalPrice = 0;
+        let valueOfTheOrder = 0;
 
         for (let product of products) {
             const item = await Product.findById(product.productId);
@@ -21,20 +21,21 @@ const createOrder = async (req, res) => {
                 return res.status(404).json({ error: "Product not found." });
             }
 
-            product.unitPrice = item.price;
-            product.totalPrice = product.quantity * product.unitPrice;
-            totalPrice += product.totalPrice;
+            product.price = item.price;
+            product.totalPrice = product.quantity * product.price;
+            valueOfTheOrder += product.totalPrice;
         }
 
         const newOrder = await Order.create({
             userId,
             products,
-            totalPrice,
+            valueOfTheOrder,
+            addressId: req.user.addressId,
         });
 
         res.status(201).json(newOrder);
     } catch (err) {
-        res.status(500).json({ error: "Internal server error." });
+        res.status(500).json({ error: "Internal server error.", message: err });
     }
 };
 

@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        unitPrice: {
+        price: {
             type: Number,
             required: true,
         },
@@ -30,9 +30,19 @@ const orderSchema = new mongoose.Schema({
         required: true,
     },
     products: [productSchema],
-    totalPrice: {
+    valueOfTheOrder: {
         type: Number,
         required: true,
+    },
+    addressId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address",
+        required: true,
+    },
+    paymentStatus: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
     createdAt: {
         type: Date,
