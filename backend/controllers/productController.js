@@ -9,6 +9,10 @@ function idIsValid(id) {
  * Serviço responsável por criar um novo produto
  */
 const createProduct = async (req, res) => {
+    /**
+     * Criar um array de cores disponiveis do produto
+     */
+
     const {
         name,
         serie,
