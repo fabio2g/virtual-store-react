@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const Product = require("../models/Product");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -89,8 +91,46 @@ const profile = async (req, res) => {
     }
 };
 
+const addProductToCart = async (req, res) => {
+    try {
+        const user = req.user;
+
+        const { productId, quantity } = req.body;
+        //price / SubTotal
+        if (!user) {
+            res.status(422).json({
+                success: false,
+                message: "Nenhum  usuário encontrado.",
+            });
+        }
+
+        const product = await Product.findById({ _id: productId });
+
+        const newProductCart = {
+            productId: product._id,
+            quantity,
+            price: product.price,
+        };
+
+        const updateUser = User.findByIdAndUpdate(
+            { _id: user._id },
+            {
+                shoppingCart: product,
+            },
+            {
+                new: true,
+            }
+        );
+
+        res.status(200).json(updateUser);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 module.exports = {
     register,
     login,
     profile,
+    addProductToCart,
 };
