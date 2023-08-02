@@ -7,7 +7,7 @@ const {
 } = require("../middlewares/userValidation");
 
 const {
-    register,
+    signUp,
     login,
     profile,
     addProductToCart,
@@ -18,7 +18,7 @@ const authGuard = require("../middlewares/authGuard");
 /**
  * Rotas de registro
  */
-router.post("/register", userCreateValidation(), validate, register);
+router.post("/signup", userCreateValidation(), validate, signUp);
 
 /**
  * Rotas de login

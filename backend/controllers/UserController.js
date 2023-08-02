@@ -1,51 +1,17 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
+const UserService = require("../services/UserService");
 
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-const jwtSecret = process.env.JWT_SECRET;
-
-const generatedToken = (id) => {
-    return jwt.sign({ id }, jwtSecret, {
-        expiresIn: "5d",
-    });
-};
-
-const register = async (req, res) => {
+const signUp = async (req, res) => {
     const { name, email, password } = req.body;
 
-    const checkEmail = await User.findOne({ email });
-
-    if (checkEmail) {
-        res.status(422).json({
-            success: false,
-            error: ["Por favor, utilize outro e-mail."],
-        });
-        return;
-    }
-
-    const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
-
-    const newUser = await User.create({
+    const newUser = await UserService.save({
         name,
         email,
-        password: passwordHash,
+        password,
     });
 
-    if (!newUser) {
-        res.status(422).json({
-            success: false,
-            error: ["Erro ao criar usuário."],
-        });
-        return;
-    }
-
-    res.status(201).json({
-        _id: newUser._id,
-        token: generatedToken(newUser._id),
-    });
+    res.json(newUser);
 };
 
 const login = async (req, res) => {
@@ -96,7 +62,7 @@ const addProductToCart = async (req, res) => {
         const user = req.user;
 
         const { productId, quantity } = req.body;
-        //price / SubTotal
+
         if (!user) {
             res.status(422).json({
                 success: false,
@@ -129,7 +95,7 @@ const addProductToCart = async (req, res) => {
 };
 
 module.exports = {
-    register,
+    signUp,
     login,
     profile,
     addProductToCart,
