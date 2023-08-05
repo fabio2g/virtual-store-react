@@ -6,11 +6,15 @@ class UserService {
         try {
             const registeredUser = await User.findOne({ email: user.email });
 
-            if (registeredUser) {
+            if (registeredUser)
                 throw new Error("O e-mail informado já está sendo utilizado.");
-            }
 
-            const passwordHash = JwtSecretUtil.generatedHash(user.password);
+            const passwordHash = await JwtSecretUtil.generatedHash(
+                user.password
+            );
+
+            if (!passwordHash)
+                throw new Error("Ocorreu um erro ao gerar o hash da senha.");
 
             const newUser = User.create({
                 name: user.name,
@@ -22,7 +26,7 @@ class UserService {
                 status: true,
                 data: {
                     _id: newUser._id,
-                    token: generatedToken(newUser._id),
+                    token: JwtSecretUtil.generatedToken(newUser._id),
                 },
             };
         } catch (error) {
