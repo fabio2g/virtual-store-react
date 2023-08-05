@@ -8,7 +8,7 @@ const {
 
 const {
     signUp,
-    login,
+    signIn,
     profile,
     addProductToCart,
 } = require("../controllers/UserController");
@@ -23,7 +23,7 @@ router.post("/signup", userCreateValidation(), validate, signUp);
 /**
  * Rotas de login
  */
-router.post("/login", loginValidation(), validate, login);
+router.post("/signin", loginValidation(), validate, signIn);
 
 /**
  * Rotas de perfil do usuário logado

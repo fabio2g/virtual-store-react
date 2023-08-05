@@ -14,34 +14,17 @@ const signUp = async (req, res) => {
     res.json(newUser);
 };
 
-const login = async (req, res) => {
+const signIn = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-
-    if (!user) {
-        res.status(404).json({
-            success: false,
-            error: "Informe um e-mail válido",
-        });
-        return;
-    }
-
-    if (!bcrypt.compare(password, user.password)) {
-        res.status(401).json([
-            {
-                success: false,
-                error: "Senha incorreta, por favor verifique sua senha.",
-            },
-        ]);
-        return;
-    }
-
-    res.status(200).json({
-        success: true,
-        _id: user._id,
-        token: generatedToken(user._id),
+    const user = await UserService.login({
+        email,
+        password,
     });
+
+    if (!user.status) return res.status(401).json(user);
+
+    res.json(user);
 };
 
 const profile = async (req, res) => {
@@ -96,7 +79,7 @@ const addProductToCart = async (req, res) => {
 
 module.exports = {
     signUp,
-    login,
+    signIn,
     profile,
     addProductToCart,
 };

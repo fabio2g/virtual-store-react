@@ -21,6 +21,20 @@ class JwtSecretUtil {
             expiresIn: "5d",
         });
     };
+
+    static comparePassaword = async (plaintextPassword, hashedPassword) => {
+        try {
+            const isMatch = await bcrypt.compare(
+                plaintextPassword,
+                hashedPassword
+            );
+
+            return isMatch;
+        } catch (error) {
+            console.error(`${__dirname}\n${error.stack}`);
+            return null;
+        }
+    };
 }
 
 module.exports = JwtSecretUtil;

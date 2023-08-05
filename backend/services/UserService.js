@@ -1,5 +1,10 @@
 const User = require("../models/User");
-const JwtSecretUtil = require("../util/JwtScretUtil");
+
+const {
+    generatedHash,
+    generatedToken,
+    comparePassaword,
+} = require("../util/JwtScretUtil");
 
 class UserService {
     static save = async (user) => {
@@ -9,7 +14,7 @@ class UserService {
             if (registeredUser)
                 throw new Error("O e-mail informado já está sendo utilizado.");
 
-            const passwordHash = await JwtSecretUtil.generatedHash(
+            const passwordHash = await JwtScretUtil.generatedHash(
                 user.password
             );
 
@@ -26,7 +31,31 @@ class UserService {
                 status: true,
                 data: {
                     _id: newUser._id,
-                    token: JwtSecretUtil.generatedToken(newUser._id),
+                    token: generatedToken(newUser._id),
+                },
+            };
+        } catch (error) {
+            return { status: false, error: error.message };
+        }
+    };
+
+    static login = async (data) => {
+        try {
+            const user = await User.findOne({ email: data.email });
+
+            if (!user) throw new Error("Informe um e-mail válido.");
+
+            if (!(await comparePassaword(data.password, user.password))) {
+                throw new Error(
+                    "Senha incorreta, por favor verifique sua senha."
+                );
+            }
+
+            return {
+                status: true,
+                data: {
+                    _id: user._id,
+                    token: generatedToken(user._id),
                 },
             };
         } catch (error) {
