@@ -11,7 +11,15 @@ const signUp = async (req, res) => {
         password,
     });
 
-    res.json(newUser);
+    /**
+     * Verifica o status retornado do método save().
+     * Caso o retorno seja false, a resposta HTTP será configurada com o status 401 (Unauthorized)
+     * e o objeto newUser será enviado como resposta JSON.
+     * Caso contrário, a resposta HTTP será configurada com o status 200 (OK - Sucesso)
+     * e o objeto newUser será enviado como resposta JSON.
+     */
+    if (!newUser.status) return res.status(401).json(newUser);
+    res.status(200).json(newUser);
 };
 
 const signIn = async (req, res) => {
@@ -23,8 +31,7 @@ const signIn = async (req, res) => {
     });
 
     if (!user.status) return res.status(401).json(user);
-
-    res.json(user);
+    res.status(200).json(user);
 };
 
 const profile = async (req, res) => {

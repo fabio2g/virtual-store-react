@@ -7,6 +7,11 @@ const {
 } = require("../util/JwtScretUtil");
 
 class UserService {
+    /**
+     * Função assíncrona que salva um usuário no banco de dados.
+     * @param {*} user - Objeto contendo os dados do usuário a ser salvo.
+     * @returns - Retorna um objeto com informações sobre o resultado da operação.
+     */
     static save = async (user) => {
         try {
             const registeredUser = await User.findOne({ email: user.email });
@@ -14,9 +19,7 @@ class UserService {
             if (registeredUser)
                 throw new Error("O e-mail informado já está sendo utilizado.");
 
-            const passwordHash = await JwtScretUtil.generatedHash(
-                user.password
-            );
+            const passwordHash = await generatedHash(user.password);
 
             if (!passwordHash)
                 throw new Error("Ocorreu um erro ao gerar o hash da senha.");
@@ -39,6 +42,11 @@ class UserService {
         }
     };
 
+    /**
+     * Função assíncrona que realiza e autoriza o login do usuário.
+     * @param {*} data - Objeto contendo os dados do usuário a ser logado.
+     * @returns - Retorna um objeto com informações sobre o resultado da operação.
+     */
     static login = async (data) => {
         try {
             const user = await User.findOne({ email: data.email });
