@@ -30,6 +30,9 @@ router.post("/signin", loginValidation(), validate, signIn);
  */
 router.get("/profile", authGuard, profile);
 
+/**
+ * Rotas de carrinho de compra do usuário
+ */
 router.post("/cart", authGuard, validate, addProductToCart);
 
 module.exports = router;

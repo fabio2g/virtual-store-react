@@ -43,6 +43,10 @@ const signIn = async (req, res) => {
     res.status(200).json(user);
 };
 
+const deleteUser = async (req, res) => {
+    // code
+};
+
 const profile = async (req, res) => {
     try {
         const user = req.user;
