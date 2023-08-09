@@ -10,15 +10,12 @@ const UserService = require("../services/UserService");
 const signUp = async (req, res) => {
     const { name, email, password } = req.body;
 
-    // Chama o serviço UserService.save() para salvar o novo usuário no banco de dados.
     const newUser = await UserService.save({
         name,
         email,
         password,
     });
 
-    // Verifica se o status do objeto newUser é false (indicando erro no salvamento do usuário).
-    // Se o status do objeto newUser for true (indicando sucesso no salvamento do usuário).
     if (!newUser.status) return res.status(401).json(newUser);
     res.status(200).json(newUser);
 };
@@ -31,14 +28,11 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
     const { email, password } = req.body;
 
-    // Chama o serviço UserService.login() para realizar o processo de autenticação do usuário.
     const user = await UserService.login({
         email,
         password,
     });
 
-    // Verifica se o status do objeto user é false (indicando falha na autenticação).
-    // Se o status do objeto user for true (indicando sucesso na autenticação),
     if (!user.status) return res.status(401).json(user);
     res.status(200).json(user);
 };
