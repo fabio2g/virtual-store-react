@@ -1,3 +1,4 @@
+const Product = require("../models/Product");
 const User = require("../models/User");
 
 const {
@@ -89,6 +90,45 @@ class UserService {
             return {
                 status: true,
                 message: `Usuário ${user._id} deletado com sucesso.`,
+            };
+        } catch (error) {
+            return { status: false, error: error.message };
+        }
+    };
+
+    static cart = async (data) => {
+        try {
+            if (!data.userId) {
+                throw new Error("Nenhum  usuário encontrado.");
+            }
+
+            const product = await Product.findById(data.productId);
+
+            const newProduct = {
+                productId: product._id,
+                quantity: data.quantity,
+                price: product.price,
+                subTotal: product.price * data.quantity,
+            };
+
+            const update = await User.findByIdAndUpdate(
+                { _id: data.userId },
+                {
+                    shoppingCart: newProduct,
+                },
+                {
+                    new: true,
+                }
+            );
+
+            return {
+                status: true,
+                message: "Produto adicionado com sucesso.",
+                data: {
+                    userId: data.userId,
+                    name: update.name,
+                    shoppingCart: update.shoppingCart,
+                },
             };
         } catch (error) {
             return { status: false, error: error.message };

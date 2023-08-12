@@ -64,41 +64,42 @@ const profile = async (req, res) => {
     }
 };
 
-const addProductToCart = async (req, res) => {
-    try {
-        const user = req.user;
+const shoppingCart = async (req, res) => {
+    const { productId, quantity } = req.body;
+    const userId = req.user._id;
 
-        const { productId, quantity } = req.body;
+    const cart = await UserService.cart({ userId, productId, quantity });
 
-        if (!user) {
-            res.status(422).json({
-                success: false,
-                message: "Nenhum  usuário encontrado.",
-            });
-        }
+    res.json(cart);
 
-        const product = await Product.findById({ _id: productId });
-
-        const newProductCart = {
-            productId: product._id,
-            quantity,
-            price: product.price,
-        };
-
-        const updateUser = User.findByIdAndUpdate(
-            { _id: user._id },
-            {
-                shoppingCart: product,
-            },
-            {
-                new: true,
-            }
-        );
-
-        res.status(200).json(updateUser);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    // try {
+    //     const user = req.user;
+    //     const { productId, quantity } = req.body;
+    //     if (!user) {
+    //         res.status(422).json({
+    //             success: false,
+    //             message: "Nenhum  usuário encontrado.",
+    //         });
+    //     }
+    //     const product = await Product.findById({ _id: productId });
+    //     const newProductCart = {
+    //         productId: product._id,
+    //         quantity,
+    //         price: product.price,
+    //     };
+    //     const updateUser = User.findByIdAndUpdate(
+    //         { _id: user._id },
+    //         {
+    //             shoppingCart: product,
+    //         },
+    //         {
+    //             new: true,
+    //         }
+    //     );
+    //     res.status(200).json(updateUser);
+    // } catch (error) {
+    //     res.status(500).json({ error: error.message });
+    // }
 };
 
 module.exports = {
@@ -106,5 +107,5 @@ module.exports = {
     signIn,
     deleteAccount,
     profile,
-    addProductToCart,
+    shoppingCart,
 };

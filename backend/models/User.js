@@ -16,7 +16,7 @@ const shoppingCartSchema = new Schema(
             type: Number,
             required: true,
         },
-        SubTotal: {
+        subTotal: {
             type: Number,
             required: true,
         },
