@@ -56,6 +56,10 @@ const userSchema = new Schema(
             ref: "Address",
             default: null,
         },
+        deleted: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,

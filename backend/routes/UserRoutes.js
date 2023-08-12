@@ -9,6 +9,7 @@ const {
 const {
     signUp,
     signIn,
+    deleteAccount,
     profile,
     addProductToCart,
 } = require("../controllers/UserController");
@@ -24,6 +25,11 @@ router.post("/signup", userCreateValidation(), validate, signUp);
  * Rotas de login
  */
 router.post("/signin", loginValidation(), validate, signIn);
+
+/**
+ * Rotas responsável por deletar a conta
+ */
+router.patch("/deleteaccount/:id", deleteAccount);
 
 /**
  * Rotas de perfil do usuário logado

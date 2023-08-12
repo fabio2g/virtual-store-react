@@ -9,24 +9,25 @@ const {
 class UserService {
     /**
      * Função assíncrona que salva um usuário no banco de dados.
-     * @param {*} user - Objeto contendo os dados do usuário a ser salvo.
+     * @param {*} data - Objeto contendo os dados do usuário a ser salvo.
      * @returns - Retorna um objeto com informações sobre o resultado da operação.
      */
-    static save = async (user) => {
+    static save = async (data) => {
         try {
-            const registeredUser = await User.findOne({ email: user.email });
+            const user = await User.findOne({ email: data.email });
 
-            if (registeredUser)
+            // Criar um método para restabelecer a conta deletetada do usuário
+            if (user)
                 throw new Error("O e-mail informado já está sendo utilizado.");
 
-            const passwordHash = await generatedHash(user.password);
+            const passwordHash = await generatedHash(data.password);
 
             if (!passwordHash)
                 throw new Error("Ocorreu um erro ao gerar o hash da senha.");
 
             const newUser = User.create({
-                name: user.name,
-                email: user.email,
+                name: data.name,
+                email: data.email,
                 password: passwordHash,
             });
 
@@ -65,6 +66,29 @@ class UserService {
                     _id: user._id,
                     token: generatedToken(user._id),
                 },
+            };
+        } catch (error) {
+            return { status: false, error: error.message };
+        }
+    };
+
+    /**
+     * Método estático para excluir um usuário.
+     * @param {string} id - ID do usuário a ser excluído.
+     * @returns {Object} - Objeto contendo o status da operação e uma mensagem.
+     */
+    static delete = async (id) => {
+        try {
+            const user = await User.findByIdAndUpdate(
+                {
+                    _id: id,
+                },
+                { deleted: true }
+            );
+
+            return {
+                status: true,
+                message: `Usuário ${user._id} deletado com sucesso.`,
             };
         } catch (error) {
             return { status: false, error: error.message };

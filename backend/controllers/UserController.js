@@ -37,8 +37,18 @@ const signIn = async (req, res) => {
     res.status(200).json(user);
 };
 
-const deleteUser = async (req, res) => {
-    // code
+/**
+ * Função assíncrona que excluir uma conta de usuário.
+ * @param {Object} req - Objeto da solicitação HTTP contendo informações da solicitação.
+ * @param {Object} res - Objeto de resposta HTTP usado para enviar uma resposta ao cliente.
+ */
+const deleteAccount = async (req, res) => {
+    const userId = req.params.id;
+
+    const result = await UserService.delete(userId);
+
+    if (!result.status) return res.status(401).json(result);
+    res.status(200).json(result);
 };
 
 const profile = async (req, res) => {
@@ -50,7 +60,7 @@ const profile = async (req, res) => {
             data: user,
         });
     } catch (error) {
-        res.json({ message: "Erro profile" });
+        res.json({ message: error.message });
     }
 };
 
@@ -94,6 +104,7 @@ const addProductToCart = async (req, res) => {
 module.exports = {
     signUp,
     signIn,
+    deleteAccount,
     profile,
     addProductToCart,
 };
