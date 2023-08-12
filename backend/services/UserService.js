@@ -96,7 +96,7 @@ class UserService {
         }
     };
 
-    static cart = async (data) => {
+    static cartUpload = async (data) => {
         try {
             if (!data.userId) {
                 throw new Error("Nenhum  usuário encontrado.");
