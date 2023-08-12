@@ -1,36 +1,34 @@
-**Cabeçalhos Requeridos:**
+# Documentação da API: Registro de Usuário
 
-```
-Authorization: Bearer SEU_TOKEN_DE_AUTENTICAÇÃO
-```
+Bem-vindo à documentação da API de Registro de Usuário. Esta API permite que você registre novos usuários em nosso sistema, obtendo um token de acesso para uso futuro.
 
 ## Endpoints
 
 ### 1. Registro de Usuário
 
-Registra um usuário, fornecendo um token de acesso para uso futuro.
+Registre um novo usuário e obtenha um token de acesso.
 
-**URL**: `/user/signup`
+**URL:** `http://localhost:3000/user/signup`
 
-**Método**: `POST`
+**Método:** `POST`
 
 **Parâmetros de Requisição:**
 
--   `name` (string): O nome do usuário.
--   `email` (string): O email do usuário.
--   `password` (string): A senha do usuário.
--   `confirmPasswrod` (string): A confirmaçãode de senha do usuário.
+-   `name` (string): Nome do usuário.
+-   `email` (string): Endereço de email do usuário.
+-   `password` (string): Senha do usuário.
+-   `confirmPassword` (string): Confirmação da senha do usuário.
 
 **Exemplo de Requisição:**
 
 ```http
-POST /login HTTP/1.1
-Host: api.exemplo.com
+POST /user/signup HTTP/1.1
+Host: localhost:3000
 Content-Type: application/json
 
 {
     "name": "John Doe",
-    "email": "john@exemple.com",
+    "email": "john@example.com",
     "password": "123456",
     "confirmPassword": "123456"
 }
@@ -43,7 +41,19 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-  "mensagem": "Autenticação bem-sucedida",
-  "token_de_acesso": "SEU_TOKEN_DE_ACESSO"
+    "status": true,
+    "token": "SEU_TOKEN_DE_ACESSO"
+}
+```
+
+**Resposta Mal-Sucedida:**
+
+```json
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+
+{
+    "status": false,
+    "error": "MENSAGEM_DE_ERRO"
 }
 ```

@@ -63,10 +63,7 @@ class UserService {
 
             return {
                 status: true,
-                data: {
-                    _id: user._id,
-                    token: generatedToken(user._id),
-                },
+                token: generatedToken(user._id),
             };
         } catch (error) {
             return { status: false, error: error.message };
