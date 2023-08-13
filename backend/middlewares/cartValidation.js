@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
 
+/**
+ * Middleware para validar os dados de entrada do carrinho.
+ * Verifica se a ID do produto é válida e se a quantidade é um número válido maior que 0.
+ * Em caso de erros, retorna uma resposta de erro com os detalhes.
+ * @param {Object} req - O objeto de requisição.
+ * @param {Object} res - O objeto de resposta.
+ * @param {Function} next - A função para continuar o fluxo da requisição.
+ */
 const cartInputValidation = (req, res, next) => {
     const { productId, quantity } = req.body;
 
