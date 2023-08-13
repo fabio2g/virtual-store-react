@@ -9,11 +9,13 @@ const app = express();
  */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
  * Arquivo de rotas
  */
 const router = require("./routes/Routes");
+const bodyParser = require("body-parser");
 app.use(router);
 
 app.listen(process.env.PORT || 8080, () => {

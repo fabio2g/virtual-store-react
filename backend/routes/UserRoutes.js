@@ -15,6 +15,8 @@ const {
 } = require("../controllers/UserController");
 const validate = require("../middlewares/handleValidation");
 const authGuard = require("../middlewares/authGuard");
+const cartInputValidation = require("../middlewares/cartValidation");
+const errorValidation = require("../middlewares/errorValidation");
 
 /**
  * Rotas de registro
@@ -39,6 +41,6 @@ router.get("/profile", authGuard, profile);
 /**
  * Rotas de carrinho de compra do usuário
  */
-router.post("/shoppingcart", authGuard, validate, addToCart);
+router.post("/shoppingcart", authGuard, cartInputValidation, addToCart);
 
 module.exports = router;

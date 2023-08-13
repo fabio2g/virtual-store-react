@@ -60,17 +60,23 @@ const profile = async (req, res) => {
             data: user,
         });
     } catch (error) {
-        res.json({ message: error.message });
+        res.status(401).json({ message: error.message });
     }
 };
 
+/**
+ * Função assíncrona que adiciona produtos ao carrinho do usuário.
+ * @param {Object} req - Objeto da solicitação HTTP contendo informações da solicitação.
+ * @param {Object} res - Objeto de resposta HTTP usado para enviar uma resposta ao cliente.
+ */
 const addToCart = async (req, res) => {
     const { productId, quantity } = req.body;
     const userId = req.user._id;
 
     const cart = await UserService.cartUpload({ userId, productId, quantity });
 
-    res.json(cart);
+    if(!cart.status) return res.status(401).json(cart)
+    res.status(201).json(cart);
 };
 
 module.exports = {
