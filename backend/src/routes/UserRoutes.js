@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
+const validate = require("../middlewares/handleValidation");
+
+const authGuard = require("../middlewares/authGuard");
 const {
-    userCreateValidation,
-    loginValidation,
+    signUpInputValidation,
+    signInInputvalidation,
 } = require("../middlewares/userValidation");
+const cartInputValidation = require("../middlewares/cartValidation");
 
 const {
     signUp,
@@ -13,20 +17,16 @@ const {
     profile,
     addToCart,
 } = require("../controllers/UserController");
-const validate = require("../middlewares/handleValidation");
-const authGuard = require("../middlewares/authGuard");
-const cartInputValidation = require("../middlewares/cartValidation");
-const errorValidation = require("../middlewares/errorValidation");
 
 /**
  * Rotas de registro
  */
-router.post("/signup", userCreateValidation(), validate, signUp);
+router.post("/signup", signUpInputValidation, signUp);
 
 /**
  * Rotas de login
  */
-router.post("/signin", loginValidation(), validate, signIn);
+router.post("/signin", signInInputvalidation, signIn);
 
 /**
  * Rotas responsável por deletar a conta

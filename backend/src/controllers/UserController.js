@@ -1,5 +1,3 @@
-const User = require("../models/User");
-const Product = require("../models/Product");
 const UserService = require("../services/UserService");
 
 /**
@@ -28,13 +26,14 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await UserService.login({
-        email,
-        password,
-    });
+    // const user = await UserService.login({
+    //     email,
+    //     password,
+    // });
 
-    if (!user.status) return res.status(401).json(user);
-    res.status(200).json(user);
+    // if (!user.status) return res.status(401).json(user);
+    // res.status(200).json(user);
+    res.status(200).json({ msg: "ok passou" });
 };
 
 /**
@@ -75,7 +74,7 @@ const addToCart = async (req, res) => {
 
     const cart = await UserService.cartUpload({ userId, productId, quantity });
 
-    if(!cart.status) return res.status(401).json(cart)
+    if (!cart.status) return res.status(401).json(cart);
     res.status(201).json(cart);
 };
 
