@@ -26,7 +26,7 @@ router.post("/signup", signUpInputValidation, signUp);
 /**
  * Rotas de login
  */
-router.post("/signin", signInInputvalidation, signIn);
+router.post("/signin", signInInputvalidation, validate, signIn);
 
 /**
  * Rotas responsável por deletar a conta

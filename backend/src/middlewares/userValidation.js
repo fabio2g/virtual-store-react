@@ -39,11 +39,7 @@ const signUpInputValidation = (req, res, next) => {
         errors.push("As senhas não são iguais.");
     }
 
-    if (errors.length > 0) {
-        return res.status(401).json({ status: false, error: errors });
-    }
-
-    next();
+    return errors.length > 0 ? next(errors) : next();
 };
 
 const signInInputvalidation = (req, res, next) => {
@@ -52,16 +48,12 @@ const signInInputvalidation = (req, res, next) => {
     const errors = [];
 
     if (!email) errors.push("O e-mail é obrigatório.");
-    if (!isValid(email)) errors.push("E-mail de usuário inválido.");
+    else if (!isValid(email)) errors.push("E-mail de usuário inválido.");
 
     if (!password) errors.push("A senha é obrigatória.");
-    if (typeof password !== "string") errors.push("Senha inválida.");
+    else if (typeof password !== "string") errors.push("Senha inválida.");
 
-    if (errors.length > 0) {
-        return res.status(401).json({ status: false, error: errors });
-    }
-
-    next();
+    return errors.length > 0 ? next(errors) : next();
 };
 
 module.exports = { signUpInputValidation, signInInputvalidation };

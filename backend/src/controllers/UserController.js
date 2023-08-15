@@ -26,14 +26,13 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
     const { email, password } = req.body;
 
-    // const user = await UserService.login({
-    //     email,
-    //     password,
-    // });
+    const user = await UserService.login({
+        email,
+        password,
+    });
 
-    // if (!user.status) return res.status(401).json(user);
-    // res.status(200).json(user);
-    res.status(200).json({ msg: "ok passou" });
+    if (!user.status) return res.status(401).json(user);
+    res.status(200).json(user);
 };
 
 /**
