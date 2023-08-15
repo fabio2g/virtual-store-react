@@ -7,6 +7,7 @@ const signUpInputValidation = (req, res, next) => {
 
     const errors = [];
 
+    // Validação de nome
     if (!name) {
         errors.push("O nome do usuário é obrigatório.");
     } else if (typeof name != "string") {
@@ -16,9 +17,7 @@ const signUpInputValidation = (req, res, next) => {
     }
 
     // Validação de e-mail
-    if (!isValid(email)) {
-        errors.push("E-mail de usuário inválido.");
-    }
+    if (!isValid(email)) errors.push("E-mail de usuário inválido.");
 
     // Validação de senha
     if (!password) {
@@ -32,10 +31,10 @@ const signUpInputValidation = (req, res, next) => {
     // Validação de confirmação de senha
     if (!confirmPassword) {
         errors.push("A confirmação de senha é obrigatória.");
-    } else if (typeof confirmPassword !== "string") {
-        errors.push("Confirmação de senha inválida.");
-    }
-    if (confirmPassword !== password) {
+    } else if (
+        typeof confirmPassword !== "string" ||
+        confirmPassword !== password
+    ) {
         errors.push("As senhas não são iguais.");
     }
 
