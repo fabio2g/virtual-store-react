@@ -1,13 +1,14 @@
-# Documentação da API: Registro de Usuário
+# Documentação da API
 
 Bem-vindo à documentação da API Virtual Store.
+
 ## Endpoints
 
 ### 1. Registro de Usuário
 
 Registre um novo usuário e obtenha um token de acesso.
 
-**URL:** `http://localhost:3000/user/signup`
+**URL:** `http://localhost:3001/user/signup`
 
 **Método:** `POST`
 
@@ -22,7 +23,7 @@ Registre um novo usuário e obtenha um token de acesso.
 
 ```http
 POST /user/signup HTTP/1.1
-Host: localhost:3000
+Host: localhost:3001
 Content-Type: application/json
 
 {
@@ -61,7 +62,7 @@ Content-Type: application/json
 
 Faça login na aplicação utilizando os dados de login que foram previamente cadastrados para acessar todos os recursos disponibilizados pela API.
 
-**URL:** `http://localhost:3000/user/signin`
+**URL:** `http://localhost:3001/user/signin`
 
 **Método:** `POST`
 
@@ -74,7 +75,7 @@ Faça login na aplicação utilizando os dados de login que foram previamente ca
 
 ```http
 POST /user/signin HTTP/1.1
-Host: localhost:3000
+Host: localhost:3001
 Content-Type: application/json
 
 {
@@ -92,6 +93,49 @@ Content-Type: application/json
 {
     "status": true,
     "token": "SEU_TOKEN_DE_ACESSO"
+}
+```
+
+**Resposta Malsucedida:**
+
+```json
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+
+{
+    "status": false,
+    "error": "MENSAGEM_DE_ERRO"
+}
+```
+
+### 3. Deletar Usuário:
+
+Esta rota é responsável por permitir a remoção de um usuário existente no sistema. Ela oferece uma interface para solicitar a exclusão de um usuário por meio de uma requisição HTTP do tipo DELETE. A rota recebe como parâmetro um identificador único que identifica o usuário a ser excluído. Ao receber a solicitação, o sistema verifica a existência desse usuário e, se encontrado, procede com a exclusão do registro correspondente.
+
+**URL:** `http://localhost:3001/user/deleteaccount`
+
+**Método:** `PATCH`
+
+**Parâmetros de Requisição:**
+
+-   `id` (string): O identificador único do usuário a ser excluído.
+
+**Exemplo de Requisição:**
+
+```http
+PATCH /user/deleteAcconunt/123 HTTP/1.1
+Host: localhost:3001
+```
+
+**Resposta Bem-Sucedida:**
+
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "status": true,
+    "message": "Usuário {id} deletado com sucesso."
 }
 ```
 
