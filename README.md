@@ -27,10 +27,10 @@ Host: localhost:3001
 Content-Type: application/json
 
 {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "123456",
-    "confirmPassword": "123456"
+    "name": "SEU_NOME",
+    "email": "SEU_EMAIL",
+    "password": "SUA_SENHA",
+    "confirmPassword": "SUA_CONFIRMAÇÃO"
 }
 ```
 
@@ -79,8 +79,8 @@ Host: localhost:3001
 Content-Type: application/json
 
 {
-    "email": "john@example.com",
-    "password": "123456"
+    "email": "SEU_EMAIL",
+    "password": "SUA_SENHA"
 }
 ```
 
