@@ -21,7 +21,7 @@ const {
 /**
  * Rotas de registro
  */
-router.post("/signup", signUpInputValidation, signUp);
+router.post("/signup", signUpInputValidation, validate, signUp);
 
 /**
  * Rotas de login

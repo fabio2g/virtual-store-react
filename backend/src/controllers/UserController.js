@@ -1,9 +1,8 @@
 const UserService = require("../services/UserService");
 
 /**
- * Função assíncrona responsável por realizar o processo de cadastro (signup) de um novo usuário.
- * @param {Object} req - O objeto de requisição contendo os dados enviados pelo cliente.
- * @param {Object} res - O objeto de resposta que será enviado ao cliente.
+ * Função assíncrona responsável por realizar o processo de cadastro (signup)
+ * de um novo usuário.
  */
 const signUp = async (req, res) => {
     const { name, email, password } = req.body;
@@ -19,9 +18,8 @@ const signUp = async (req, res) => {
 };
 
 /**
- * Função assíncrona responsável por realizar o processo de autenticação (login) do usuário.
- * @param {Object} req - O objeto de requisição contendo os dados enviados pelo cliente.
- * @param {Object} res - O objeto de resposta que será enviado ao cliente.
+ * Função assíncrona responsável por realizar o processo de autenticação
+ * (login) do usuário.
  */
 const signIn = async (req, res) => {
     const { email, password } = req.body;
@@ -37,8 +35,6 @@ const signIn = async (req, res) => {
 
 /**
  * Função assíncrona que excluir uma conta de usuário.
- * @param {Object} req - Objeto da solicitação HTTP contendo informações da solicitação.
- * @param {Object} res - Objeto de resposta HTTP usado para enviar uma resposta ao cliente.
  */
 const deleteAccount = async (req, res) => {
     const userId = req.params.id;
@@ -64,8 +60,6 @@ const profile = async (req, res) => {
 
 /**
  * Função assíncrona que adiciona produtos ao carrinho do usuário.
- * @param {Object} req - Objeto da solicitação HTTP contendo informações da solicitação.
- * @param {Object} res - Objeto de resposta HTTP usado para enviar uma resposta ao cliente.
  */
 const addToCart = async (req, res) => {
     const { productId, quantity } = req.body;
