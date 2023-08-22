@@ -108,11 +108,11 @@ Content-Type: application/json
 }
 ```
 
-### 3. Deletar Usuário:
+### 3. Deletar Usuário
 
-Esta rota é responsável por permitir a remoção de um usuário existente no sistema. Ela oferece uma interface para solicitar a exclusão de um usuário por meio de uma requisição HTTP do tipo DELETE. A rota recebe como parâmetro um identificador único que identifica o usuário a ser excluído. Ao receber a solicitação, o sistema verifica a existência desse usuário e, se encontrado, procede com a exclusão do registro correspondente.
+Esta rota é responsável por permitir a remoção de um usuário existente no sistema. Ela oferece uma interface para solicitar a exclusão de um usuário por meio de uma requisição HTTP do tipo PATCH. A rota recebe como parâmetro um identificador único que identifica o usuário a ser excluído. Ao receber a solicitação, o sistema verifica a existência desse usuário e, se encontrado, procede com a exclusão do registro correspondente.
 
-**URL:** `http://localhost:3001/user/deleteaccount`
+**URL:** `http://localhost:3001/user/deleteaccount/id`
 
 **Método:** `PATCH`
 
@@ -123,7 +123,7 @@ Esta rota é responsável por permitir a remoção de um usuário existente no s
 **Exemplo de Requisição:**
 
 ```http
-PATCH /user/deleteAcconunt/123 HTTP/1.1
+PATCH /user/deleteacconunt/123 HTTP/1.1
 Host: localhost:3001
 ```
 
@@ -135,7 +135,7 @@ Content-Type: application/json
 
 {
     "status": true,
-    "message": "Usuário {id} deletado com sucesso."
+    "message": "MENSAGEM_DE_SUCESSO"
 }
 ```
 
