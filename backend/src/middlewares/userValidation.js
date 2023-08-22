@@ -14,7 +14,7 @@ const signUpInputValidation = (req, res, next) => {
 
     if (!email) {
         errors.push(errorMessage("email", "O email é obrigatório."));
-    } else if (!isValid(email)) {
+    } else if (!isEmail(email)) {
         errors.push(errorMessage("email", "E-mail de usuário inválido."));
     }
 
@@ -51,7 +51,7 @@ const signInInputvalidation = (req, res, next) => {
 
     if (!email) {
         errors.push(errorMessage("email", "O e-mail é obrigatório."));
-    } else if (!isValid(email)) {
+    } else if (!isEmail(email)) {
         errors.push(errorMessage("email", "E-mail inválido."));
     }
 

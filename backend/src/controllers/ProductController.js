@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Product = require("../models/Product");
+const ProductService = require("../services/ProductService");
 
 function idIsValid(id) {
     return mongoose.Types.ObjectId.isValid(id) ? true : false;
@@ -9,55 +10,12 @@ function idIsValid(id) {
  * Serviço responsável por criar um novo produto
  */
 const createProduct = async (req, res) => {
-    /**
-     * Criar um array de cores disponiveis do produto
-     */
+    const productData = req.body;
 
-    const {
-        name,
-        serie,
-        brand,
-        color,
-        description,
-        categories,
-        price,
-        stockQuantity,
-        images,
-    } = req.body;
+    const result = await ProductService.save(productData);
 
-    const product = await Product.findOne({ serie });
-
-    if (product) {
-        res.status(422).json({
-            success: "false",
-            message:
-                "O produto não pode ser cadastrado, já existe um produto cadastrado com o mesmo número de série.",
-        });
-        return;
-    }
-
-    const newProduct = await Product.create({
-        name,
-        serie,
-        brand,
-        color,
-        description,
-        categories,
-        price,
-        stockQuantity,
-        images,
-    });
-
-    if (!newProduct) {
-        res.json({ sucess: false, error: "Erro ao registrar o produto!" });
-        return;
-    }
-
-    res.status(201).json({
-        sucess: true,
-        message: "Produto registrado com sucesso!",
-        data: newProduct,
-    });
+    if (!result.status) return res.status(401).json(result);
+    res.status(200).json(result);
 };
 
 /**
