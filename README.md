@@ -1,46 +1,33 @@
-# Login de Usuário
+# Documentação da API: Registro de Usuário
 
-Bem-vindo à documentação da API Virtual Store React. Esta API permite aos desenvolvedores integrar a funcionalidade de autenticação e login de usuário em suas aplicações. Abaixo, você encontrará informações detalhadas sobre como utilizar os endpoints da API de forma eficaz.
-
-**Endpoint Base**: `http://localhost:3000`
-
-## Autenticação
-
-Para utilizar os endpoints da API, você precisará incluir um token de autenticação no cabeçalho de suas requisições. O token pode ser obtido através do processo de registro e autenticação com as credenciais da sua aplicação.
-
-**Cabeçalhos Requeridos:**
-
-```
-Authorization: Bearer SEU_TOKEN_DE_AUTENTICAÇÃO
-```
-
+Bem-vindo à documentação da API Virtual Store.
 ## Endpoints
 
 ### 1. Registro de Usuário
 
-Registra um usuário, fornecendo um token de acesso para uso futuro.
+Registre um novo usuário e obtenha um token de acesso.
 
-**URL**: `/user/signup`
+**URL:** `http://localhost:3000/user/signup`
 
-**Método**: `POST`
+**Método:** `POST`
 
 **Parâmetros de Requisição:**
 
--   `name` (string): O nome do usuário.
--   `email` (string): O email do usuário.
--   `password` (string): A senha do usuário.
--   `confirmPasswrod` (string): A confirmaçãode de senha do usuário.
+-   `name` (string): Nome do usuário.
+-   `email` (string): Endereço de email do usuário.
+-   `password` (string): Senha do usuário.
+-   `confirmPassword` (string): Confirmação da senha do usuário.
 
 **Exemplo de Requisição:**
 
 ```http
-POST /login HTTP/1.1
-Host: api.exemplo.com
+POST /user/signup HTTP/1.1
+Host: localhost:3000
 Content-Type: application/json
 
 {
     "name": "John Doe",
-    "email": "john@exemple.com",
+    "email": "john@example.com",
     "password": "123456",
     "confirmPassword": "123456"
 }
@@ -53,25 +40,47 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-  "mensagem": "Autenticação bem-sucedida",
-  "token_de_acesso": "SEU_TOKEN_DE_ACESSO"
+    "status": true,
+    "token": "SEU_TOKEN_DE_ACESSO"
 }
 ```
 
-### 2. Obter Dados do Usuário Autenticado
+**Resposta Malsucedida:**
 
-Recupera informações do usuário autenticado usando o token de acesso.
+```json
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
 
-**URL**: `/perfil`
+{
+    "status": false,
+    "error": "MENSAGEM_DE_ERRO"
+}
+```
 
-**Método**: `GET`
+### 2. Login de Usuário
+
+Faça login na aplicação utilizando os dados de login que foram previamente cadastrados para acessar todos os recursos disponibilizados pela API.
+
+**URL:** `http://localhost:3000/user/signin`
+
+**Método:** `POST`
+
+**Parâmetros de Requisição:**
+
+-   `email` (string): Endereço de email registrado na conta do usuário.
+-   `password` (string): Senha registrada na conta do usuário.
 
 **Exemplo de Requisição:**
 
 ```http
-GET /perfil HTTP/1.1
-Host: api.exemplo.com
-Authorization: Bearer SEU_TOKEN_DE_ACESSO
+POST /user/signin HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+    "email": "john@example.com",
+    "password": "123456"
+}
 ```
 
 **Resposta Bem-Sucedida:**
@@ -81,46 +90,19 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-  "id": 123,
-  "nome": "Usuário Exemplo",
-  "email": "usuario@example.com"
-  // Outros campos de perfil
+    "status": true,
+    "token": "SEU_TOKEN_DE_ACESSO"
 }
 ```
 
-### 3. Encerrar Sessão
-
-Revoga o token de acesso, efetuando o logout do usuário.
-
-**URL**: `/logout`
-
-**Método**: `POST`
-
-**Exemplo de Requisição:**
-
-```http
-POST /logout HTTP/1.1
-Host: api.exemplo.com
-Authorization: Bearer SEU_TOKEN_DE_ACESSO
-```
-
-**Resposta Bem-Sucedida:**
+**Resposta Malsucedida:**
 
 ```json
-HTTP/1.1 204 No Content
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+
+{
+    "status": false,
+    "error": "MENSAGEM_DE_ERRO"
+}
 ```
-
-## Status de Erro
-
-A API retornará os seguintes códigos de status em caso de erro:
-
--   `400 Bad Request`: Requisição mal formada ou parâmetros ausentes.
--   `401 Unauthorized`: Falha na autenticação.
--   `403 Forbidden`: Acesso negado devido a permissões insuficientes.
--   `500 Internal Server Error`: Erro interno do servidor.
-
-Para cada resposta de erro, um objeto JSON detalhando o erro será retornado, contendo uma mensagem descritiva do problema.
-
----
-
-Esta é uma documentação básica para a API de Login de Usuário. Certifique-se de substituir os exemplos acima pelos detalhes específicos da sua API.
