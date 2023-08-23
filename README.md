@@ -123,7 +123,7 @@ Esta rota é responsável por permitir a remoção de um usuário existente no s
 **Exemplo de Requisição:**
 
 ```http
-PATCH /user/deleteacconunt/123 HTTP/1.1
+PATCH /user/deleteaccount/123 HTTP/1.1
 Host: localhost:3001
 ```
 
