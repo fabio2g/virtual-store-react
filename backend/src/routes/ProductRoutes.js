@@ -35,12 +35,12 @@ router.post(
 /**
  * Rota responsável por listar os produtos do banco
  */
-router.get("/read", getAllProduct);
+router.get("/get", getAllProduct);
 
 /**
  * Rota responsável por buscar produto pelo seu ID
  */
-router.get("/read/:id", getProductById);
+router.get("/get/:id", getProductById);
 
 /**
  * Rota responsável por atualizar produto

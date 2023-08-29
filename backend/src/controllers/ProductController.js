@@ -1,10 +1,5 @@
-const mongoose = require("mongoose");
 const Product = require("../models/Product");
 const ProductService = require("../services/ProductService");
-
-function idIsValid(id) {
-    return mongoose.Types.ObjectId.isValid(id) ? true : false;
-}
 
 /**
  * Serviço responsável por criar um novo produto
@@ -22,13 +17,10 @@ const createProduct = async (req, res) => {
  * Serviço responsável por listar todos os produtos
  */
 const getAllProduct = async (req, res) => {
-    try {
-        const products = await Product.find();
+    const result = await ProductService.getProduct();
 
-        res.status(200).json({ success: true, data: products });
-    } catch (error) {
-        res.status(500).json("Ocorreu um erro ao obter os produtos.");
-    }
+    if (!result.status) return res.status(401).json(result);
+    res.status(200).json(result);
 };
 
 /**
@@ -37,21 +29,10 @@ const getAllProduct = async (req, res) => {
 const getProductById = async (req, res) => {
     const productId = req.params.id;
 
-    if (!idIsValid(productId))
-        return res
-            .status(422)
-            .json({ success: false, error: "O ID é inválido" });
+    const result = await ProductService.getProduct(productId);
 
-    try {
-        const product = await Product.findById(productId);
-
-        res.status(200).json({ success: true, data: product });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            erro: "Ocorreu um erro ao obter o produto.",
-        });
-    }
+    if (!result.status) return res.status(401).json(result);
+    res.status(200).json(result);
 };
 
 /**
